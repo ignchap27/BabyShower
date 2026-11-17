@@ -292,3 +292,46 @@ img { display: block; max-width: 100%; height: auto; }
 .regalo--tuya { background: #d6e48a; outline: 2px solid var(--pantano-oscuro); }
 
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ---------- acompañantes ---------- */
+.acompanante { display: flex; gap: 8px; align-items: start; }
+.acompanante .campo { flex: 1; margin-bottom: 10px; }
+.acompanante__quitar {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--ogro-borde);
+  border-radius: 50%;
+  background: #fff;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--ogro-borde);
+  cursor: pointer;
+}
+.boton--secundario { display: block; width: 100%; margin: 0 0 6px; font-family: Georgia, serif; font-size: 1rem; color: var(--bosque); -webkit-text-stroke: 0; padding: 10px 16px; }
+
+/* ---------- pista de deslizar ---------- */
+.desliza {
+  position: fixed;
+  left: 50%;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 20px 6px;
+  border: 2px solid var(--ogro-borde);
+  border-radius: 999px;
+  background: #d6e48a;
+  box-shadow: 0 4px 0 var(--ogro-borde);
+  color: var(--ogro-borde);
+  font-size: 1.3rem;
+  line-height: 1;
+  transform: translateX(-50%);
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  animation: rebote 1.4s ease-in-out infinite;
+}
+.desliza__flecha { font-size: 1.6rem; font-family: Georgia, serif; }
+.desliza--oculta { opacity: 0; }
+@keyframes rebote { 50% { transform: translate(-50%, -10px); } }

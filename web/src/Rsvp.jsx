@@ -10,6 +10,7 @@ const CALENDARIO = /iPhone|iPad|Macintosh/.test(navigator.userAgent)
   ? '/baby-shower-jero.ics'
   : 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=Baby+Shower+de+Jer%C3%B3nimo&dates=20261212T200000Z/20261212T230000Z&location=Calle+119a+%23+57-60%2C+Parques+de+Provenza+A%2C+Sal%C3%B3n+comunal&details=https%3A%2F%2Fmaps.app.goo.gl%2FZL4jQzrY2Qaqd6jg9'
 const SENT_KEY = 'rsvp-enviado'
+const MAX_ACOMPANANTES = 10
 
 // Guarda { attending, gift }; versiones viejas guardaban 'si' / 'no'.
 const readSent = () => {
@@ -27,6 +28,7 @@ export default function Rsvp({ onBack }) {
   const [draft, setDraft] = useState({ name: '', song: '' })
   const [attending, setAttending] = useState(null)
   const [gift, setGift] = useState(null)
+  const [companions, setCompanions] = useState([])
   const [status, setStatus] = useState('idle')
   const [error, setError] = useState('')
 
@@ -34,7 +36,13 @@ export default function Rsvp({ onBack }) {
     setStatus('sending')
     setError('')
     const { error: dbError } = supabase
-      ? await supabase.from('rsvps').insert(row)
+      ? await supabase.rpc('confirmar', {
+          p_name: row.name,
+          p_attending: row.attending,
+          p_song: row.song,
+          p_gift: row.gift_category,
+          p_acompanantes: row.companions,
+        })
       : { error: new Error('Supabase no configurado') }
     setStatus('idle')
     if (dbError) {
@@ -55,17 +63,25 @@ export default function Rsvp({ onBack }) {
     setDraft(next)
     if (attending) {
       setError('')
-      setStep('regalos')
+      setStep('acompanantes')
       window.scrollTo(0, 0)
       return
     }
-    save({ name: next.name, attending: false, song: next.song || null, gift_category: null })
+    save({ name: next.name, attending: false, song: next.song || null, gift_category: null, companions: [] })
   }
 
   function submitGift(e) {
     e.preventDefault()
-    save({ name: draft.name, attending: true, song: draft.song || null, gift_category: gift })
+    save({
+      name: draft.name,
+      attending: true,
+      song: draft.song || null,
+      gift_category: gift,
+      companions: companions.map((c) => c.trim()).filter(Boolean),
+    })
   }
+
+  const setCompanion = (i, value) => setCompanions((list) => list.map((c, j) => (j === i ? value : c)))
 
   if (sent) {
     return (
@@ -88,6 +104,54 @@ export default function Rsvp({ onBack }) {
           <button type="button" className="boton" onClick={onBack}>Ver la invitación</button>
         </section>
         <img className="rsvp-escena" src={`${A}/personajes/lobo-pinocho-cerditos.png`} alt="" />
+      </main>
+    )
+  }
+
+  if (step === 'acompanantes') {
+    return (
+      <main className="page page--rsvp">
+        <form
+          className="tarjeta"
+          onSubmit={(e) => { e.preventDefault(); setStep('regalos'); window.scrollTo(0, 0) }}
+        >
+          <h1 className="titulo">¿Vienes con alguien?</h1>
+          <p className="intro">
+            Agrega el nombre de cada persona que viene contigo. Si no traes acompañantes, toca Continuar.
+          </p>
+
+          {companions.map((c, i) => (
+            <div className="acompanante" key={i}>
+              <label className="campo">
+                <span className="sr-only">Acompañante {i + 1}</span>
+                <input
+                  value={c}
+                  onChange={(e) => setCompanion(i, e.target.value)}
+                  maxLength={80}
+                  placeholder={`Acompañante ${i + 1}`}
+                  autoFocus={i === companions.length - 1 && !c}
+                />
+              </label>
+              <button
+                type="button"
+                className="acompanante__quitar"
+                onClick={() => setCompanions((list) => list.filter((_, j) => j !== i))}
+                aria-label={`Quitar acompañante ${i + 1}`}
+              >×</button>
+            </div>
+          ))}
+
+          {companions.length < MAX_ACOMPANANTES && (
+            <button type="button" className="boton boton--secundario" onClick={() => setCompanions((list) => [...list, ''])}>
+              + Agregar acompañante
+            </button>
+          )}
+
+          <button type="submit" className="boton boton--ancho">Continuar</button>
+          <button type="button" className="volver" onClick={() => setStep('form')}>← Atrás</button>
+        </form>
+
+        <img className="rsvp-escena" src={`${A}/personajes/ratones-ciegos.png`} alt="" />
       </main>
     )
   }
@@ -116,7 +180,7 @@ export default function Rsvp({ onBack }) {
           <button type="submit" className="boton boton--ancho" disabled={status === 'sending'}>
             {status === 'sending' ? 'Enviando…' : 'Confirmar'}
           </button>
-          <button type="button" className="volver" onClick={() => { setError(''); setStep('form') }}>← Atrás</button>
+          <button type="button" className="volver" onClick={() => { setError(''); setStep('acompanantes') }}>← Atrás</button>
         </form>
 
         <img className="rsvp-escena" src={`${A}/personajes/ratones-ciegos.png`} alt="" />

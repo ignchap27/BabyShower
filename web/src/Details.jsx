@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const A = '/assets'
 const MAPS = 'https://maps.app.goo.gl/ZL4jQzrY2Qaqd6jg9'
@@ -20,9 +20,31 @@ function Reveal({ children, className = '' }) {
   return <section ref={ref} className={`reveal ${className}`}>{children}</section>
 }
 
+// Pista para quien no sabe que debe deslizar; se va en cuanto desliza.
+function Desliza() {
+  const [visible, setVisible] = useState(true)
+  useEffect(() => {
+    const onScroll = () => {
+      if (window.scrollY > 40) {
+        setVisible(false)
+        window.removeEventListener('scroll', onScroll)
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+  return (
+    <div className={`desliza gotica ${visible ? '' : 'desliza--oculta'}`} aria-hidden="true">
+      Desliza hacia abajo
+      <span className="desliza__flecha">↓</span>
+    </div>
+  )
+}
+
 export default function Details({ onRsvp }) {
   return (
     <main className="page page--detalles">
+      <Desliza />
       <Reveal className="cabecera">
         <img className="jengibre" src={`${A}/personajes/jengibre-chupeta.png`} alt="Jengibre" />
         <img className="cuerda" src={`${A}/personajes/shrek-burro-gato-cuerda.png`} alt="Shrek, Burro y el Gato" />
@@ -81,10 +103,6 @@ export default function Details({ onRsvp }) {
       <Reveal className="escena">
         <img src={`${A}/personajes/shrek-burro-acostados.png`} alt="Shrek y Burro" />
         <img className="escena__suelo" src={`${A}/decoracion/cesped-2.png`} alt="" />
-      </Reveal>
-
-      <Reveal className="pd">
-        <Posdata />
       </Reveal>
     </main>
   )
