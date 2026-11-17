@@ -14,3 +14,14 @@ create policy "invitados pueden responder" on public.rsvps
   for insert to anon with check (gift_category is null or attending);
 
 grant insert on public.rsvps to anon;
+
+-- Conteo agregado por categoría (sin nombres) para el tablero de regalos.
+create or replace function public.gift_counts()
+returns table (gift_category text, total bigint)
+language sql stable security definer set search_path = '' as $$
+  select gift_category, count(*) from public.rsvps
+  where attending and gift_category is not null
+  group by gift_category
+$$;
+revoke execute on function public.gift_counts() from public;
+grant execute on function public.gift_counts() to anon;

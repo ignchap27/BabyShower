@@ -246,3 +246,47 @@ img { display: block; max-width: 100%; height: auto; }
 
 /* Texto chico del formulario: la gótica no se lee a este tamaño. */
 .opcion span, .error, .nota { font-family: Georgia, serif; font-size: 0.95rem; }
+
+/* ---------- tablero de regalos ---------- */
+.intro, .regalos__resumen { margin: 0 0 14px; font-family: Georgia, serif; font-size: 0.95rem; }
+.regalos__resumen { font-weight: bold; color: var(--bosque); }
+.tarjeta--gracias .regalos { margin-top: 8px; text-align: left; }
+.subtitulo { margin: 22px 0 8px; font-family: Georgia, serif; font-size: 1.1rem; color: var(--tinta); }
+
+.grupo-titulo {
+  margin: 16px 0 8px;
+  font-family: Georgia, serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pantano-oscuro);
+}
+
+.regalo { align-items: start; }
+.regalo input { margin-top: 2px; }
+.regalo .regalo__cuerpo { flex: 1; display: block; }
+.regalo__texto, .regalo__fila { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+.regalo__fila { flex-wrap: nowrap; margin-top: 8px; }
+.regalo .regalo__conteo { flex: none; min-width: 6.5em; font-size: 0.85rem; text-align: right; color: #555; }
+
+.barra { flex: 1; height: 10px; border-radius: 999px; background: rgb(0 0 0 / 0.1); overflow: hidden; }
+.barra__relleno {
+  display: block;
+  height: 100%;
+  background: var(--pantano-oscuro);
+  transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.opcion .badge {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--bosque);
+  color: #fff;
+  font-family: Georgia, serif;
+  font-size: 0.75rem;
+}
+.opcion .badge--tuya { background: var(--dorado); }
+.regalo--tuya { background: #d6e48a; outline: 2px solid var(--pantano-oscuro); }
+
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
