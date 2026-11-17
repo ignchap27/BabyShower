@@ -60,7 +60,7 @@ export default function Details({ onRsvp }) {
 
       <Reveal className="escena">
         <img src={`${A}/personajes/shrek-burro-gato-fiona.png`} alt="Shrek, Fiona, Burro y el Gato" />
-        <img className="escena__suelo" src={`${A}/decoracion/pantano.png`} alt="" />
+        <img className="escena__suelo escena__suelo--pantano" src={`${A}/decoracion/pantano.png`} alt="" />
         <p className="gotica gotica--lg">¡Te esperamos!</p>
       </Reveal>
 
