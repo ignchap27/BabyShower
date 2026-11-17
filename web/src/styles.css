@@ -1,0 +1,248 @@
+@font-face {
+  font-family: 'Shrek';
+  src: url('/assets/fuentes/shrek.ttf') format('truetype');
+  font-display: swap;
+  /* La fuente pinta el logo "Shrek" para ¿ ¡ ? : y tildes; esos caen a Gotica. */
+  unicode-range: U+20, U+22-39, U+41-5A, U+61-7A;
+}
+@font-face {
+  font-family: 'Gotica';
+  src: url('/assets/fuentes/canva-gotica.woff') format('woff');
+  font-display: swap;
+}
+
+:root {
+  --pantano: #a8bf00;
+  --pantano-oscuro: #6f8a12;
+  --ogro: #9fd61a;
+  --ogro-borde: #2f4a07;
+  --dorado: #8c6a12;
+  --tinta: #2b2b16;
+  --bosque: #2d6410;
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; }
+
+body {
+  background: var(--pantano);
+  color: var(--tinta);
+  font-family: 'Gotica', Georgia, serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+
+.page {
+  position: relative;
+  max-width: 420px;
+  min-height: 100svh;
+  margin: 0 auto;
+  padding: 32px 16px 48px;
+  overflow: hidden;
+  text-align: center;
+}
+
+/* ---------- tipografía ---------- */
+.titulo {
+  margin: 0 0 8px;
+  font-family: 'Shrek', 'Gotica', serif;
+  font-weight: normal;
+  font-size: 2.3rem;
+  line-height: 1.1;
+  color: var(--ogro);
+  -webkit-text-stroke: 1.5px var(--ogro-borde);
+  text-shadow: 2px 3px 0 var(--ogro-borde);
+}
+.titulo--xl { font-size: 3.4rem; }
+
+.gotica { margin: 0; color: var(--dorado); font-size: 1.15rem; line-height: 1.35; }
+.gotica--md { font-size: 1.4rem; }
+.gotica--lg { font-size: 1.8rem; }
+
+/* ---------- botones ---------- */
+.boton {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 22px 10px;
+  border: 2px solid var(--ogro-borde);
+  border-radius: 999px;
+  background: #d6e48a;
+  box-shadow: 0 4px 0 var(--ogro-borde);
+  font-family: 'Shrek', 'Gotica', serif;
+  font-size: 1.7rem;
+  color: var(--ogro);
+  -webkit-text-stroke: 1px var(--ogro-borde);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.boton:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--ogro-borde); }
+.boton:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.boton:disabled { opacity: 0.6; cursor: wait; }
+.boton--ancho { width: 100%; }
+
+/* ---------- sobre ---------- */
+.page--sobre {
+  background: linear-gradient(var(--pantano) 45%, var(--pantano-oscuro));
+}
+
+.invitado {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: end;
+  gap: 6px;
+  margin-top: 16px;
+}
+.invitado img { max-height: 110px; margin: 0 auto; }
+.invitado p { padding-bottom: 20px; font-size: 1.3rem; }
+
+.sobre {
+  position: relative;
+  display: block;
+  width: 88%;
+  margin: 8px auto 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  animation: flotar 2.6s ease-in-out infinite;
+}
+.sobre:focus-visible { outline: 3px solid #fff; outline-offset: 6px; }
+.sobre__sello {
+  position: absolute;
+  left: 50%;
+  top: 62%;
+  width: 22%;
+  transform: translate(-50%, -50%);
+}
+.sobre--abriendo { animation: abrir 0.9s ease-in forwards; }
+.sobre-sombra { width: 70%; margin: -6px auto 0; opacity: 0.55; animation: sombra 2.6s ease-in-out infinite; }
+
+.bebes { width: 70%; margin: -10px auto 0; }
+
+.esquinas { display: flex; justify-content: space-between; align-items: end; margin-top: 12px; }
+.esquinas img { width: 40%; }
+
+.rana { position: absolute; width: 48px; animation: flotar 3.4s ease-in-out infinite; pointer-events: none; }
+.rana--1 { left: -8px; top: 8px; }
+.rana--2 { right: -10px; top: 150px; animation-delay: -1.2s; }
+.rana--3 { left: -12px; top: 420px; animation-delay: -2.1s; }
+
+@keyframes flotar { 50% { transform: translateY(-8px); } }
+@keyframes sombra { 50% { transform: scale(0.9); opacity: 0.4; } }
+@keyframes abrir {
+  30% { transform: scale(1.06) rotate(-2deg); }
+  100% { transform: scale(1.4) translateY(-40px); opacity: 0; }
+}
+
+/* ---------- detalles ---------- */
+.page--detalles > section { margin-bottom: 40px; }
+
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+.cabecera { display: flex; justify-content: space-between; align-items: start; }
+.jengibre { width: 28%; }
+.cuerda { width: 36%; }
+
+.bebe-nube { position: relative; width: 60%; margin: 0 auto; }
+.bebe { width: 70%; margin: 0 auto -28%; position: relative; z-index: 1; }
+
+.fecha { display: flex; justify-content: center; align-items: center; gap: 18px; margin-top: 6px; }
+.fecha__dia {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border: 2px dashed #d6e48a;
+  border-radius: 50%;
+  background: var(--pantano-oscuro);
+  font-family: 'Shrek', 'Gotica', serif;
+  font-size: 1.8rem;
+  color: var(--ogro);
+  -webkit-text-stroke: 1px var(--ogro-borde);
+}
+
+.direccion { margin: 6px 0; }
+
+.escena { width: 75%; margin-left: auto; margin-right: auto; }
+.escena__suelo { margin-top: -18%; position: relative; z-index: -1; }
+
+.pd { display: grid; grid-template-columns: 1fr 1fr 0.8fr; align-items: center; gap: 4px; }
+.pd .titulo { font-size: 1.9rem; }
+.pd .gotica { font-size: 1rem; }
+.pociones { position: relative; height: 110px; }
+.pociones img { position: absolute; width: 45%; bottom: 0; }
+.pociones img:nth-child(1) { left: 0; bottom: 14px; }
+.pociones img:nth-child(2) { left: 27%; z-index: 1; }
+.pociones img:nth-child(3) { right: 0; bottom: 14px; }
+
+/* ---------- rsvp ---------- */
+.page--rsvp {
+  background: linear-gradient(var(--pantano) 50%, var(--pantano-oscuro));
+}
+
+.tarjeta {
+  padding: 22px 18px;
+  border: 6px solid var(--pantano-oscuro);
+  border-radius: 14px;
+  background: #fff;
+  text-align: left;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.18);
+}
+.tarjeta .titulo { text-align: center; }
+.tarjeta--gracias { text-align: center; }
+
+.campo { display: block; margin: 0 0 18px; padding: 0; border: 0; }
+.campo > span, .campo legend { display: block; margin-bottom: 6px; font-size: 1.15rem; padding: 0; }
+.campo input:not([type='radio']) {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #8a8a8a;
+  border-radius: 8px;
+  font: inherit;
+  font-family: Georgia, serif;
+  font-size: 1rem;
+}
+.campo input:focus { outline: 2px solid var(--pantano-oscuro); outline-offset: 1px; }
+
+.opcion {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #e6e6e6;
+  cursor: pointer;
+}
+.opcion input { accent-color: var(--bosque); width: 18px; height: 18px; flex: none; }
+.opcion:has(input:checked) { background: #d6e48a; outline: 2px solid var(--pantano-oscuro); }
+
+.nota { margin: 8px 0 0; font-size: 1rem; }
+.nota a { color: var(--bosque); }
+
+.error { margin: 0 0 12px; padding: 10px; border-radius: 8px; background: #fde2e2; color: #8a1c1c; }
+
+.volver {
+  display: block;
+  margin: 14px auto 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--bosque);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.rsvp-escena { width: 70%; margin: 20px auto 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* Texto chico del formulario: la gótica no se lee a este tamaño. */
+.opcion span, .error, .nota { font-family: Georgia, serif; font-size: 0.95rem; }
