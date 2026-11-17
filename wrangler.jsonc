@@ -1,0 +1,10 @@
+// Sitio estático (Vite) servido como assets de un Worker.
+// Build en Cloudflare: cd web && npm ci && npm run build
+{
+  "name": "babyshower",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./web/dist",
+    "not_found_handling": "single-page-application"
+  }
+}
