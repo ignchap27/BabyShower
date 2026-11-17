@@ -1,9 +1,14 @@
 import { useState } from 'react'
 import { supabase } from './supabase.js'
 import Regalos from './Regalos.jsx'
+import { Posdata } from './Details.jsx'
 
 const A = '/assets'
 const AMAZON = 'https://www.amazon.com/baby-reg/homepage'
+// iOS abre .ics en Calendario; Android no importa .ics, así que va a Google Calendar
+const CALENDARIO = /iPhone|iPad|Macintosh/.test(navigator.userAgent)
+  ? '/baby-shower-jero.ics'
+  : 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=Baby+Shower+de+Jer%C3%B3nimo&dates=20261212T200000Z/20261212T230000Z&location=Calle+119a+%23+57-60%2C+Parques+de+Provenza+A%2C+Sal%C3%B3n+comunal&details=https%3A%2F%2Fmaps.app.goo.gl%2FZL4jQzrY2Qaqd6jg9'
 const SENT_KEY = 'rsvp-enviado'
 
 // Guarda { attending, gift }; versiones viejas guardaban 'si' / 'no'.
@@ -74,8 +79,10 @@ export default function Rsvp({ onBack }) {
           </p>
           {sent.attending && (
             <>
+              <a className="boton" href={CALENDARIO} target="_blank" rel="noreferrer">Agregar a mi calendario</a>
               <h2 className="subtitulo">Así va la lista de regalos</h2>
               <Regalos selected={sent.gift} readOnly />
+              <div className="pd"><Posdata /></div>
             </>
           )}
           <button type="button" className="boton" onClick={onBack}>Ver la invitación</button>

@@ -84,17 +84,25 @@ export default function Details({ onRsvp }) {
       </Reveal>
 
       <Reveal className="pd">
-        <img src={`${A}/personajes/hada-madrina.png`} alt="Hada madrina" />
-        <div>
-          <h2 className="titulo">P.D.</h2>
-          <p className="gotica">Trae tu propia poción<br />Felices por Siempre</p>
-        </div>
-        <div className="pociones">
-          <img src={`${A}/decoracion/pocion-felices-por-siempre.png`} alt="" />
-          <img src={`${A}/decoracion/pocion-felices-por-siempre.png`} alt="Poción Felices por Siempre" />
-          <img src={`${A}/decoracion/pocion-felices-por-siempre.png`} alt="" />
-        </div>
+        <Posdata />
       </Reveal>
     </main>
+  )
+}
+
+export function Posdata() {
+  return (
+    <>
+      <img src={`${A}/personajes/hada-madrina.png`} alt="Hada madrina" />
+      <div>
+        <h2 className="titulo">P.D.</h2>
+        <p className="gotica">Trae tu propia poción<br />Felices por Siempre</p>
+      </div>
+      <div className="pociones">
+        <img src={`${A}/decoracion/pocion-felices-por-siempre.png`} alt="" />
+        <img src={`${A}/decoracion/pocion-felices-por-siempre.png`} alt="Poción Felices por Siempre" />
+        <img src={`${A}/decoracion/pocion-felices-por-siempre.png`} alt="" />
+      </div>
+    </>
   )
 }
